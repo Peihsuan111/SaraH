@@ -8,7 +8,7 @@ batserver Environment
 def current_time():
     import datetime
     curTime = datetime.datetime.now()
-    curTime = curTime.strftime('%Y-%M-%d %H:%m:%S')
+    curTime = curTime.strftime('%Y-%m-%d %H:%M:%S')
     return curTime
 
 # connect to db
@@ -80,14 +80,23 @@ for x in cur:
     netprofits = 0
     # 加總訂單中的細項價格
     for i in x['ITEM']:
-        sale = i['SALES']
-        cost_purchase = i['COST_PURCHASE']
-        profit = i['PROFIT']
-        netprofit = i['NETPROFIT']
+        if 'SALES' in i:
+            sale = i['SALES']
+        else:
+            sale = 0
+        if 'COST_PURCHASE' in i:
+            cost_purchase = i['COST_PURCHASE']
+        else:
+            cost_purchase = 0
+        if 'PROFIT' in i:
+            profit = i['PROFIT']
+        else:
+            profit = 0
+        #netprofit = i['NETPROFIT']
         sales = sales + sale
         cost_purchases = cost_purchases + cost_purchase
         profits = profits + profit
-        netprofits = netprofits + netprofit
+        #netprofits = netprofits + netprofit
     P = str(sales) #P = str(x['SALES']) #1
     Q = str(cost_purchases) #Q = str(x['COST_PURCHASE']) #2
     R =  str(profits) #R = str(x['PROFIT']) #3
