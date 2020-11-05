@@ -120,7 +120,8 @@ for x in cur:
     saveStr = tmpStr.strip()
     try:
         writeF.write(saveStr+"\n")
-    except:
+    except ValueError:
+        print(x['ORDERID'])
 
 print('End Time: ', current_time())
     #tmpStr = str(x['ORDERID'],encoding = 'utf-8') +"@"+ str(x['DEAL_ID'],encoding = 'utf-8') +"@"+ str(x['ISO_YEARWEEK'],encoding = 'utf-8')+"@"+ str(x['ORDERDAY'],encoding = 'utf-8')
