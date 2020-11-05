@@ -54,7 +54,7 @@ cur = coll.find({'ORDERMONTH':{'$in':[201901,201902,201903,201904,201905,201906,
 #-*- encoding:utf-8 -*-
 saveStr = ""
 writeF = open('/home/sara/Files/friDay_performance.csv', "w", encoding='utf8')
-colStr = 'orderId@dealId@dateWeek@date@dateTime@storeId@new_storeId@memuid@yearRange@firstMonthBuy@financeType@firstYearBuy@sex@device@channelId3@sales@cost@profit@coupon@discountCode@fCoin@fCoinReturn@happyGo@netProfit'
+colStr = 'orderId@dealId@dateWeek@date@dateTime@storeId@new_storeId@memuid@yearRange@firstMonthBuy@financeType@firstYearBuy@sex@device@channelId3@sales@cost@profit@coupon@discountCode@fCoin@fCoinReturn@happyGo'
 
 writeF.write(colStr+"\n")
 print('Start Time: ', current_time())
