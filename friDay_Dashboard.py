@@ -49,7 +49,7 @@ coll = cli.friDay.order_detail
 cur = coll.find({'ORDERMONTH':{'$in':[201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912, 202001,202002,202003,202004,202005,202006,202007,202008,202009,202010]}}
                 ,{'ORDERID':1,'DEAL_ID':1,'ISO_YEARWEEK':1,'ORDERDAY':1,'ORDERTIME':1,
                 'HOUSEID':1,'NEW_HOUSE_ID':1,'USERID':1,'YEARRABGE':1,'IS_FIRST_MONTH_BUY':1,'FINANCE_TYPE':1,'IS_FIRST_YEAR_BUY':1,'SEX':1,'DEVICE':1,'CHANNEL_ID3':1,
-                'COUPON':1,'DISCOUNTCODE':1,'BENEFIT':1,'REBATE':1,'POINTS':1,'ITEM.SALES':1,'ITEM.COST_PURCHASE':1,'ITEM.PROFIT':1,'ITEM.NETPROFIT':1
+                'COUPON':1,'DISCOUNTCODE':1,'BENEFIT':1,'REBATE':1,'POINTS':1,'ITEM.SALES':1,'ITEM.COST_PURCHASE':1,'ITEM.PROFIT':1
                 })
 #-*- encoding:utf-8 -*-
 saveStr = ""
@@ -77,26 +77,37 @@ for x in cur:
     sales = 0
     cost_purchases = 0
     profits = 0
-    netprofits = 0
+    #netprofits = 0
     # 加總訂單中的細項價格
     for i in x['ITEM']:
         if 'SALES' in i:
-            sale = i['SALES']
+            if i['SALES'] is None:
+                sale = 0
+            else:
+                sale = i['SALES']
         else:
             sale = 0
+            print('No ITEM.SALES; orderId:', x['ORDERID'])
+
         if 'COST_PURCHASE' in i:
-            cost_purchase = i['COST_PURCHASE']
+            if i['COST_PURCHASE'] is None:
+                cost_purchase = 0
+            else:
+                cost_purchase = i['COST_PURCHASE']
         else:
             cost_purchase = 0
+            print('No ITEM.COST_PURCHASE; orderId:', x['ORDERID'])
         if 'PROFIT' in i:
-            profit = i['PROFIT']
+            if i['PROFIT'] is None:
+                profit = 0
+            else:
+                profit = i['PROFIT']
         else:
             profit = 0
-        #netprofit = i['NETPROFIT']
+            print('No ITEM.PROFIT; orderId:', x['ORDERID'])
         sales = sales + sale
         cost_purchases = cost_purchases + cost_purchase
         profits = profits + profit
-        #netprofits = netprofits + netprofit
     P = str(sales) #P = str(x['SALES']) #1
     Q = str(cost_purchases) #Q = str(x['COST_PURCHASE']) #2
     R =  str(profits) #R = str(x['PROFIT']) #3
@@ -105,7 +116,6 @@ for x in cur:
     U = str(x['BENEFIT'])
     V = str(x['REBATE'])
     W = str(x['POINTS'])
-    X =  str(netprofits) #X = str(x['NETPROFIT']) #4
     tmpStr = A +"@"+ B +"@"+ C+"@"+D+"@"+E+"@"+F+"@"+G+"@"+H+"@"+I+"@"+J+"@"+K+"@"+L+"@"+M+"@"+N+"@"+O+"@"+P+"@"+Q+"@"+R+"@"+S+"@"+T+"@"+U+"@"+V+"@"+W+"@"+X
     saveStr = tmpStr.strip()
     writeF.write(saveStr+"\n")
