@@ -53,7 +53,7 @@ cur = coll.find({'ORDERMONTH':{'$in':[201901,201902,201903,201904,201905,201906,
                 })
 #-*- encoding:utf-8 -*-
 saveStr = ""
-writeF = open('/home/sara/Files/friDay_performance.csv', "w")
+writeF = open('/home/sara/Files/friDay_performance.csv', "w", encoding='utf8')
 colStr = 'orderId@dealId@dateWeek@date@dateTime@storeId@new_storeId@memuid@yearRange@firstMonthBuy@financeType@firstYearBuy@sex@device@channelId3@sales@cost@profit@coupon@discountCode@fCoin@fCoinReturn@happyGo@netProfit'
 
 writeF.write(colStr+"\n")
@@ -118,7 +118,9 @@ for x in cur:
     W = str(x['POINTS'])
     tmpStr = A +"@"+ B +"@"+ C+"@"+D+"@"+E+"@"+F+"@"+G+"@"+H+"@"+I+"@"+J+"@"+K+"@"+L+"@"+M+"@"+N+"@"+O+"@"+P+"@"+Q+"@"+R+"@"+S+"@"+T+"@"+U+"@"+V+"@"+W
     saveStr = tmpStr.strip()
-    writeF.write(saveStr+"\n")
+    try:
+        writeF.write(saveStr+"\n")
+    except:
 
 print('End Time: ', current_time())
     #tmpStr = str(x['ORDERID'],encoding = 'utf-8') +"@"+ str(x['DEAL_ID'],encoding = 'utf-8') +"@"+ str(x['ISO_YEARWEEK'],encoding = 'utf-8')+"@"+ str(x['ORDERDAY'],encoding = 'utf-8')
