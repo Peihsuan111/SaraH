@@ -64,7 +64,7 @@ coll_tag = cli.alfred.friday_tag_id
 coll_family = cli.alfred.friday_tag_family_id
 coll_order = cli.alfred.friday_order_tag
 cur_tag = coll_tag.find({})
-cur_order = coll_order.find({}).limit(10)
+cur_order = coll_order.find({})
 
 lis_family = list(coll_family.find({}))
 
