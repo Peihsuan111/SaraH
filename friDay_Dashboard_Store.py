@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 #alfred - friDay
 '''
-batserver Environment
+insert store info to ...
+
+//batserver Environment//
+update frequency: 3month
 '''
 
 def set_client(host_nm: str):
