@@ -6,13 +6,6 @@ quarterly data into one csv
 '''
 from datetime import datetime
 import os, sys
-## parameter
-time_string = current_time()[:10]
-#defalt_month = datetime.strptime(time_string,'%Y-%m-%d').strftime('%Y%m')
-#input_month = []
-#input_month.append(int(defalt_month))
-input_month = [202010, 202011]
-
 # print current time
 def current_time():
     import datetime
@@ -51,6 +44,19 @@ def set_client(host_nm: str):
     else:
         return 'Hint: Wrong host name!'
     return (cli)
+
+## parameter
+time_string = current_time()[:10]
+#defalt_month = datetime.strptime(time_string,'%Y-%m-%d').strftime('%Y%m')
+#input_month = []
+#input_month.append(int(defalt_month))
+try:
+    input_month = sys.argv[1]
+except:
+    print('please give month list. ex.[202010, 202011]')
+    exit()
+
+#[202010, 202011]
 
 def query_log_initial(self):
     cli = set_client("friDay_innet")
