@@ -7,12 +7,7 @@ quarterly data into one csv
 from datetime import datetime
 import os, sys
 
-try:
-    input_month = sys.argv[1]
-    print(input_month)
-except:
-    print('please give month list. ex.[202010, 202011]')
-    exit()
+input_month = [202010, 202011]
 
 # print current time
 def current_time():
