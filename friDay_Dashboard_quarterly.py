@@ -4,8 +4,9 @@
 quarterly data into one csv
 //batserver Environment//
 '''
-## parameter
 from datetime import datetime
+import os, sys
+## parameter
 time_string = current_time()[:10]
 #defalt_month = datetime.strptime(time_string,'%Y-%m-%d').strftime('%Y%m')
 #input_month = []
@@ -132,6 +133,10 @@ def query_log_initial(self):
         except ValueError:
             print(x['ORDERID'])
 
+pyPath = sys.argv[0]
+curDir = os.path.dirname(pyPath) # current path
+logTxt = curDir + "/log_"  + current_time().replace(' ', '_') + ".txt"
+sys.stdout = open(logTxt, "w")
 self.query_log_initial()
 print('initial query End Time: ', current_time())
 
