@@ -58,7 +58,7 @@ except:
 
 #[202010, 202011]
 
-def query_log_initial(self):
+def query_log_initial(input_month):
     cli = set_client("friDay_innet")
     coll = cli.friDay.order_detail
     ## FIRST TIME INPUT
@@ -139,11 +139,11 @@ def query_log_initial(self):
         except ValueError:
             print(x['ORDERID'])
 
-pyPath = sys.argv[0]
-curDir = os.path.dirname(pyPath) # current path
-logTxt = curDir + "/log_"  + current_time().replace(' ', '_') + ".txt"
-sys.stdout = open(logTxt, "w")
-self.query_log_initial()
+#pyPath = sys.argv[0]
+#curDir = os.path.dirname(pyPath) # current path
+#logTxt = curDir + "/log_"  + current_time().replace(' ', '_') + ".txt"
+#sys.stdout = open(logTxt, "w")
+query_log_initial(input_month)
 print('initial query End Time: ', current_time())
 
 
