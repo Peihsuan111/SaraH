@@ -51,7 +51,7 @@ time_string = current_time()[:10]
 #input_month = []
 #input_month.append(int(defalt_month))
 try:
-    input_month = sys.argv[1]
+    input_month = sys.argv[2]
 except:
     print('please give month list. ex.[202010, 202011]')
     exit()
