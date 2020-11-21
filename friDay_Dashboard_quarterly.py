@@ -61,7 +61,7 @@ def query_log_initial(input_month):
     coll = cli.friDay.order_detail
     ## FIRST TIME INPUT
     #-*- encoding:utf-8 -*-
-    cur = coll.find({'ORDERMONTH':{'$in':[input_month]}}
+    cur = coll.find({'ORDERMONTH':{'$in':input_month}}
                     ,{'ORDERID':1,'DEAL_ID':1,'ISO_YEARWEEK':1,'ORDERDAY':1,'ORDERTIME':1,
                     'HOUSEID':1,'NEW_HOUSE_ID':1,'USERID':1,'YEARRABGE':1,'IS_FIRST_MONTH_BUY':1,'FINANCE_TYPE':1,'IS_FIRST_YEAR_BUY':1,'SEX':1,'DEVICE':1,'CHANNEL_ID3':1,
                     'COUPON':1,'DISCOUNTCODE':1,'BENEFIT':1,'REBATE':1,'POINTS':1,'ITEM.SALES':1,'ITEM.COST_PURCHASE':1,'ITEM.PROFIT':1
@@ -91,9 +91,7 @@ def query_log_initial(input_month):
         sales = 0
         cost_purchases = 0
         profits = 0
-        #netprofits = 0
-        # 加總訂單中的細項價格
-        for i in x['ITEM']:
+        for i in x['ITEM']: # 加總訂單中的細項價格
             if 'SALES' in i:
                 if i['SALES'] is None:
                     sale = 0
@@ -102,7 +100,6 @@ def query_log_initial(input_month):
             else:
                 sale = 0
                 print('No ITEM.SALES; orderId:', x['ORDERID'])
-
             if 'COST_PURCHASE' in i:
                 if i['COST_PURCHASE'] is None:
                     cost_purchase = 0
