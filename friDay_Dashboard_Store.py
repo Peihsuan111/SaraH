@@ -43,6 +43,7 @@ coll = cli.friDay.str_product_store
 cur = coll.find({'STOREID':{'$exists':True}})
 
 saveStr = ""
+
 writeF = open('/home/sara/Files/friDay_store.csv', "w", encoding='utf-8')
 colStr = 'storeId@name@startDate@endDate@status@type@cart@saleStore'
 
