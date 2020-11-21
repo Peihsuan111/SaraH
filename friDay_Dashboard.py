@@ -62,6 +62,7 @@ def append_list_as_row(file_name, list_of_elem):
         # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
 
+# open csv and delete date is current month
 
 class load2DB_orderDetail:
     def query_log(self):
@@ -69,11 +70,12 @@ class load2DB_orderDetail:
         cli = set_client("friDay_innet")
         coll = cli.friDay.order_detail
 
-        cur = coll.find({'ORDERMONTH':{'$in':input_month}}
+        cur = coll.find({'ORDERMONTH':{'$in':202011}}
                         ,{'ORDERID':1,'DEAL_ID':1,'ISO_YEARWEEK':1,'ORDERDAY':1,'ORDERTIME':1,
                         'HOUSEID':1,'NEW_HOUSE_ID':1,'USERID':1,'YEARRABGE':1,'IS_FIRST_MONTH_BUY':1,'FINANCE_TYPE':1,'IS_FIRST_YEAR_BUY':1,'SEX':1,'DEVICE':1,'CHANNEL_ID3':1,
                         'COUPON':1,'DISCOUNTCODE':1,'BENEFIT':1,'REBATE':1,'POINTS':1,'ITEM.SALES':1,'ITEM.COST_PURCHASE':1,'ITEM.PROFIT':1
                         })
+
         print('Start Time: ', current_time())
         fileName = '/home/sara/Files/friDay_performance.csv'
         for x in cur:
@@ -135,6 +137,7 @@ class load2DB_orderDetail:
             tmpStr = A +"@"+ B +"@"+ C+"@"+D+"@"+E+"@"+F+"@"+G+"@"+H+"@"+I+"@"+J+"@"+K+"@"+L+"@"+M+"@"+N+"@"+O+"@"+P+"@"+Q+"@"+R+"@"+S+"@"+T+"@"+U+"@"+V+"@"+W
             saveStr = tmpStr.strip()
             row_contents.append(tmpStr)
+
             try:
                 append_list_as_row(fileName, row_contents)
             except ValueError:
