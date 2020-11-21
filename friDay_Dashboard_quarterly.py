@@ -139,8 +139,7 @@ def query_log_initial(input_month):
 #logTxt = curDir + "/log_"  + current_time().replace(' ', '_') + ".txt"
 #sys.stdout = open(logTxt, "w")
 query_log_initial(input_month)
-print('initial query End Time: ', current_time())
+print('initial query End Time: ', current_time(), '\n')
 
-
-
-#tmpStr = str(x['ORDERID'],encoding = 'utf-8') +"@"+ str(x['DEAL_ID'],encoding = 'utf-8') +"@"+ str(x['ISO_YEARWEEK'],encoding = 'utf-8')+"@"+ str(x['ORDERDAY'],encoding = 'utf-8')
+# manually move csv file to my local path 
+##scp -i batserverkey.key sara@104.199.216.123:/file/to/send/remote /file/to/receive/local/
