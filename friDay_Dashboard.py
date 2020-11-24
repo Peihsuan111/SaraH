@@ -12,13 +12,6 @@ defalt_month = datetime.strptime(time_string,'%Y-%m-%d').strftime('%Y%m')
 input_month = []
 input_month.append(int(defalt_month))
 
-# print current time
-def current_time():
-    import datetime
-    curTime = datetime.datetime.now()
-    curTime = curTime.strftime('%Y-%m-%d %H:%M:%S')
-    return curTime
-
 # connect to db
 def set_client(host_nm: str):
     from pymongo import MongoClient
@@ -65,6 +58,13 @@ def append_list_as_row(file_name, list_of_elem):
 # open csv and delete date is current month
 
 class load2DB_orderDetail:
+    # print current time
+    def current_time():
+        import datetime
+        curTime = datetime.datetime.now()
+        curTime = curTime.strftime('%Y-%m-%d %H:%M:%S')
+        return curTime
+
     def query_log(self):
         ## SECOND TIME INPUT
         cli = set_client("friDay_innet")
