@@ -13,52 +13,42 @@ defalt_month = datetime.strptime(time_string,'%Y-%m-%d').strftime('%Y%m')
 input_month = []
 input_month.append(int(defalt_month))
 '''
-# connect to db
-def set_client(host_nm: str):
-    from pymongo import MongoClient
-    ci = {
-        'raw_innet': (
-                    '10.140.0.52:20001', 'eventuser', '1u03zj6u62j/4', 'events'),
-        'raw_outnet': (
-            '35.236.180.233:20001', 'eventuser', '1u03zj6u62j/4', 'events'),
-        'alfred_outnet': (
-            '35.194.200.228:27017', 'batuser', '1u03zj6u62j/4', 'alfred'),
-        'alfred_innet': (
-            '10.140.0.33:27017', 'batuser', '1u03zj6u62j/4', 'alfred'),
-        'friDay_outnet':(
-            '35.194.200.228:27017', 'batuser', '1u03zj6u62j/4', 'friDay'),
-        'friDay_innet':(
-            '10.140.0.33:27017', 'batuser', '1u03zj6u62j/4', 'friDay'),
-        'meteor':(
-            '35.201.252.6:20001', 'sara', '1u03zj6u62j/4', 'meteor'),
-        'local_db': (
-            'mongodb://localhost:27017/')
-    }
-    if host_nm == 'local_db':
-	    host = ci[host_nm]
-	    cli = MongoClient(host)
-    elif host_nm in ci:
-        host, unm, pwd, auth_db = ci[host_nm]
-        cli = MongoClient(host=host, username=unm, password=pwd,
-                    authSource=auth_db, authMechanism='SCRAM-SHA-1')
-    else:
-        return 'Hint: Wrong host name!'
-    return (cli)
-
-# append data to exist csv
-def append_list_as_row(file_name, list_of_elem):
-    from csv import writer
-    # Open file in append mode
-    #row_contents = ['A@B@C']
-    with open(file_name, 'a+', newline='', encoding='utf8') as write_obj:
-        # Create a writer object from csv module
-        csv_writer = writer(write_obj)
-        # Add contents of list as last row in the csv file
-        csv_writer.writerow(list_of_elem)
 
 # open csv and delete date is current month
 
 class load2DB_orderDetail:
+    # connect to db
+    def set_client(host_nm: str):
+        from pymongo import MongoClient
+        ci = {
+            'raw_innet': (
+                        '10.140.0.52:20001', 'eventuser', '1u03zj6u62j/4', 'events'),
+            'raw_outnet': (
+                '35.236.180.233:20001', 'eventuser', '1u03zj6u62j/4', 'events'),
+            'alfred_outnet': (
+                '35.194.200.228:27017', 'batuser', '1u03zj6u62j/4', 'alfred'),
+            'alfred_innet': (
+                '10.140.0.33:27017', 'batuser', '1u03zj6u62j/4', 'alfred'),
+            'friDay_outnet':(
+                '35.194.200.228:27017', 'batuser', '1u03zj6u62j/4', 'friDay'),
+            'friDay_innet':(
+                '10.140.0.33:27017', 'batuser', '1u03zj6u62j/4', 'friDay'),
+            'meteor':(
+                '35.201.252.6:20001', 'sara', '1u03zj6u62j/4', 'meteor'),
+            'local_db': (
+                'mongodb://localhost:27017/')
+        }
+        if host_nm == 'local_db':
+            host = ci[host_nm]
+            cli = MongoClient(host)
+        elif host_nm in ci:
+            host, unm, pwd, auth_db = ci[host_nm]
+            cli = MongoClient(host=host, username=unm, password=pwd,
+                        authSource=auth_db, authMechanism='SCRAM-SHA-1')
+        else:
+            return 'Hint: Wrong host name!'
+        return (cli)
+
     # print current time
     def current_time():
         import datetime
@@ -66,9 +56,20 @@ class load2DB_orderDetail:
         curTime = curTime.strftime('%Y-%m-%d %H:%M:%S')
         return curTime
 
-    def query_log(self):
+    # append data to exist csv
+    def append_list_as_row(file_name, list_of_elem):
+        from csv import writer
+        # Open file in append mode
+        #row_contents = ['A@B@C']
+        with open(file_name, 'a+', newline='', encoding='utf8') as write_obj:
+            # Create a writer object from csv module
+            csv_writer = writer(write_obj)
+            # Add contents of list as last row in the csv file
+            csv_writer.writerow(list_of_elem)
+
+    def query_log(self): #suspend
         ## SECOND TIME INPUT
-        cli = set_client("friDay_innet")
+        cli = self.set_client("friDay_innet")
         coll = cli.friDay.order_detail
 
         cur = coll.find({'ORDERMONTH':{'$in':202011}}
@@ -77,7 +78,7 @@ class load2DB_orderDetail:
                         'COUPON':1,'DISCOUNTCODE':1,'BENEFIT':1,'REBATE':1,'POINTS':1,'ITEM.SALES':1,'ITEM.COST_PURCHASE':1,'ITEM.PROFIT':1
                         })
 
-        print('Start Time: ', current_time())
+        print('Start Time: ', self.current_time())
         fileName = '/home/sara/Files/friDay_performance.csv'
         for x in cur:
             A = str(x['ORDERID'])
@@ -140,15 +141,13 @@ class load2DB_orderDetail:
             row_contents.append(tmpStr)
 
             try:
-                append_list_as_row(fileName, row_contents)
+                self.append_list_as_row(fileName, row_contents)
             except ValueError:
                 print(x['ORDERID'])
 
     def query_log_initial(self):
-        cli = set_client("friDay_innet")
+        cli = self.set_client("friDay_innet")
         coll = cli.friDay.order_detail
-        ## FIRST TIME INPUT
-        #-*- encoding:utf-8 -*-
         cur = coll.find({'ORDERMONTH':{'$in':[201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912, 202001,202002,202003,202004,202005,202006,202007,202008,202009]}}
                         ,{'ORDERID':1,'DEAL_ID':1,'ISO_YEARWEEK':1,'ORDERDAY':1,'ORDERTIME':1,
                         'HOUSEID':1,'NEW_HOUSE_ID':1,'USERID':1,'YEARRABGE':1,'IS_FIRST_MONTH_BUY':1,'FINANCE_TYPE':1,'IS_FIRST_YEAR_BUY':1,'SEX':1,'DEVICE':1,'CHANNEL_ID3':1,
@@ -158,7 +157,7 @@ class load2DB_orderDetail:
         writeF = open('/home/sara/Files/friDay_performance.csv', "w", encoding='utf8')
         colStr = 'orderId@dealId@dateWeek@date@dateTime@storeId@new_storeId@memuid@yearRange@firstMonthBuy@financeType@firstYearBuy@sex@device@channelId3@sales@cost@profit@coupon@discountCode@fCoin@fCoinReturn@happyGo'
         writeF.write(colStr+"\n")
-        print('Start Time: ', current_time())
+        print('Start Time: ', self.current_time())
         for x in cur:
             A = str(x['ORDERID'])
             B = str(x['DEAL_ID'])
@@ -228,13 +227,16 @@ class load2DB_orderDetail:
         # query as 'query'; initial query as 'initialQuery'
         if queryOrInitialQuery == 'query':
             self.query_log()
-            print('query End Time: ', current_time())
+            print('query End Time: ', self.current_time())
         elif queryOrInitialQuery == 'initialQuery':
             self.query_log_initial()
-            print('initial query End Time: ', current_time())
+            print('initial query End Time: ', self.current_time())
         else:
             print('Hint: No parameter given! \nquery or initalQuery?')
 
-
+import sys
+InputParameter = sys.argv[1]
+Func = load2DB_orderDetail()
+Func.execute(InputParameter)
 
 #tmpStr = str(x['ORDERID'],encoding = 'utf-8') +"@"+ str(x['DEAL_ID'],encoding = 'utf-8') +"@"+ str(x['ISO_YEARWEEK'],encoding = 'utf-8')+"@"+ str(x['ORDERDAY'],encoding = 'utf-8')
