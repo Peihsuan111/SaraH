@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 #alfred - friDay
 '''
-*revise to load in database
-*havent test yet
+*havent test success
 //batserver Environment//
 '''
 ## parameter

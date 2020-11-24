@@ -4,24 +4,27 @@ Setup steps:
 *unsolved
 	
 	1. Load data
-	//in bat server environment//
+		//in bat server environment//
 
-	order detail:(revise the parameter: input_month)
-	-load by quarterly
-	# python3 friDay_Dashboard_quarterly.py >>/home/sara/Files/log_dashboard.txt 
+		order detail:(revise the parameter: input_month)
+		-load by quarterly
+		# python3 friDay_Dashboard_quarterly.py >>/home/sara/Files/log_dashboard.txt 
 	
-	store:
-	-reload all data
-	# python3 friDay_Dashboard_Store.py >>/home/sara/Files/log_store.txt 
+		store:
+		-reload all data
+		# python3 friDay_Dashboard_Store.py >>/home/sara/Files/log_store.txt 
 
-	bonus:
-	-reload all data(unsolved:seperate by quarterly, but index is orderId. Unsolved problem)
-	# python3 friDay_Dashboard_bonus.py >>/home/sara/Files/log_bonus.txt 
-	
-	label:
-	!!!unsolved: wait to check and revise py file
+		bonus:
+		-reload all data(unsolved:seperate by quarterly, but index is orderId. Unsolved problem)
+		# python3 friDay_Dashboard_bonus.py >>/home/sara/Files/log_bonus.txt 
+		
+		label:
+		!!!unsolved: wait to check and revise py file
 
-	2. Files Connect to Tableau
+	2. Copy files from barServer to local(on local)
+		# scp -i batserverkey.key sara@104.199.216.123:/file/to/send/remote /file/to/receive/local/
+
+	3. Files Connect to Tableau
 
 
 
