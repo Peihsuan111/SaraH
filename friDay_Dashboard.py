@@ -6,12 +6,13 @@
 //batserver Environment//
 '''
 ## parameter
+'''
 from datetime import datetime
 time_string = current_time()[:10]
 defalt_month = datetime.strptime(time_string,'%Y-%m-%d').strftime('%Y%m')
 input_month = []
 input_month.append(int(defalt_month))
-
+'''
 # connect to db
 def set_client(host_nm: str):
     from pymongo import MongoClient
