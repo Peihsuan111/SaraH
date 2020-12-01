@@ -45,12 +45,13 @@ writeF = open('/home/sara/Files/friDay_member_Info.csv', "w", encoding='utf8')
 colStr = 'memId@birth@zipData'
 writeF.write(colStr+"\n")
 
+cnt = 0
 for x in cur:
     #updTime = x["update_date"]
     #updTime = datetime.strptime(updTime, '%Y-%m-%d').date()
     #referenceDate = datetime.strptime('2019-12-31', '%Y-%m-%d').date()
     #if updTime > referenceDate:
-    if "ID" not in x:
+    if "ID" not in x or x["ZIP"] == "" :
         pass 
     else:
         memId = str(x["ID"])
@@ -59,9 +60,11 @@ for x in cur:
         tmpStr = memId +"@"+ birth +"@"+ zipData
         saveStr = tmpStr.strip()
         try:
+            cnt += 1
             writeF.write(saveStr+"\n")
         except ValueError:
             print(memId)
         else:
             pass
-    
+
+print('total', cnt, 'rows insert')
