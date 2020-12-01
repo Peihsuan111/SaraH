@@ -53,9 +53,9 @@ for x in cur:
     if "ID" not in x:
         pass 
     else:
-        memId = x["ID"]
-        birth = x["BIRTHDAY"]
-        zipData = x["ZIP"]
+        memId = str(x["ID"])
+        birth = str(x["BIRTHDAY"])
+        zipData = str(x["ZIP"])
         tmpStr = memId +"@"+ birth +"@"+ zipData
         saveStr = tmpStr.strip()
         try:
