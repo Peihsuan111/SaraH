@@ -50,15 +50,18 @@ for x in cur:
     #updTime = datetime.strptime(updTime, '%Y-%m-%d').date()
     #referenceDate = datetime.strptime('2019-12-31', '%Y-%m-%d').date()
     #if updTime > referenceDate:
-    memId = x["ID"]
-    birth = x["BIRTHDAY"]
-    zipData = x["ZIP"]
-    tmpStr = memId +"@"+ birth +"@"+ zipData
-    saveStr = tmpStr.strip()
-    try:
-        writeF.write(saveStr+"\n")
-    except ValueError:
-        print(memId)
+    if ["ID"] not in x:
+        pass 
     else:
-        pass
+        memId = x["ID"]
+        birth = x["BIRTHDAY"]
+        zipData = x["ZIP"]
+        tmpStr = memId +"@"+ birth +"@"+ zipData
+        saveStr = tmpStr.strip()
+        try:
+            writeF.write(saveStr+"\n")
+        except ValueError:
+            print(memId)
+        else:
+            pass
     
