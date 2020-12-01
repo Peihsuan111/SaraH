@@ -50,7 +50,7 @@ for x in cur:
     #updTime = datetime.strptime(updTime, '%Y-%m-%d').date()
     #referenceDate = datetime.strptime('2019-12-31', '%Y-%m-%d').date()
     #if updTime > referenceDate:
-    if ["ID"] not in x:
+    if "ID" not in x:
         pass 
     else:
         memId = x["ID"]
