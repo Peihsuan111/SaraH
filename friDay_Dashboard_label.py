@@ -2,6 +2,12 @@
 #alfred - friDay
 '''
 batserver Environment
+collection: 
+    alfred.friday_order_tag
+    alfred.friday_tag_family_id
+
+debug: duplicate "tag_id"(collection: friday_order_tag)
+
 '''
 def current_time():
     import datetime
@@ -68,12 +74,13 @@ cur_order = coll_order.find({})
 
 lis_family = list(coll_family.find({}))
 
-# family name list
+# family name list-> column sequence list
 family_name_list = []
 for F in lis_family:
     family_name_list.append(F['name'])
 
 # 做一個標籤對照表dict: label_dic -> could save as csv(wont update too often)
+# label_dic[tag_id] = (tag_name, family_name) 
 ##lis = []
 label_dic = dict()
 for T in cur_tag:
@@ -84,13 +91,15 @@ for T in cur_tag:
     label_dic[key] = (tag_name,family_name)
 
 
-# 做一個訂單名單d結合對照表內容後一行一行寫入csv -> it worked
+# 做一個訂單名單結合對照表內容後一行一行寫入csv -> it worked
 saveStr = ""
 writeF = open('/home/sara/Files/friDay_label.csv', "w", encoding='utf-8')
 colStr = 'orderId@' + str(family_name_list)[1:-1].replace(', ', '@')
 writeF.write(colStr+"\n")
 print('Start time:', current_time())
 
+# need debug
+'''
 for i in cur_order:
     orderId = str(i['orderId'])
     fakeStr = '#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#'
@@ -100,9 +109,34 @@ for i in cur_order:
             tag_nm = label_dic[id][0]
             family_nm = label_dic[id][1]
             idx = family_name_list.index(family_nm) + 1
-            idx_lis.append((idx, tag_nm))
+            idx_lis.append((idx, tag_nm)) 
     minusCnt = 0
-    idx_lis.sort(key=takeFirst)
+    idx_lis.sort(key=takeFirst) # sort by first value; lis = [(first, second), ...]
+    for n in idx_lis:
+        site = n[0] - minusCnt
+        fakeStr = replacenth(fakeStr, '#', n[1] , site)
+        minusCnt += 1
+    saveStr = fakeStr.replace('#', '')
+    saveStr = orderId + '@' + saveStr
+    writeF.write(saveStr+"\n")'''
+
+# debug fix:
+for i in cur_order:
+    orderId = str(i['orderId'])
+    fakeStr = '#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#@#'
+    idx_lis = []
+    check_if_duplicate_tag_id = []
+    for id in i['tag_id']:
+        if id not in check_if_duplicate_tag_id:
+            if id in label_dic:
+                tag_nm = label_dic[id][0]
+                family_nm = label_dic[id][1]
+                idx = family_name_list.index(family_nm) + 1
+                idx_lis.append((idx, tag_nm))
+            else:
+                pass
+    minusCnt = 0
+    idx_lis.sort(key=takeFirst) # sort by first value; lis = [(first, second), ...]
     for n in idx_lis:
         site = n[0] - minusCnt
         fakeStr = replacenth(fakeStr, '#', n[1] , site)
