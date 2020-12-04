@@ -18,8 +18,9 @@ Setup steps:
 		-reload all data(unsolved:seperate by quarterly, but index is orderId. Unsolved problem)
 		# python3 friDay_Dashboard_bonus.py >>/home/sara/Files/log_bonus.txt 
 		
-		label:
-		!!!unsolved: wait to check and revise py file
+		label:(*unsolved: 同一個tag_family有兩個tag_id ex."orderId" :20201027732506. 瀏覽來源: 其他推薦, 廣宣) 
+		-load in order's tag_id, tag_name, tag_family_name
+		# python friDay+Dashboard_label.py >>/home/sara/Files/log_label.txt
 
 	2. Copy files from barServer to local(on local)
 		# scp -i batserverkey.key sara@104.199.216.123:/file/to/send/remote /file/to/receive/local/
